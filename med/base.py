@@ -66,12 +66,12 @@ def read_sequence_file(filename: str):
     sequences: list[Sequence] = []
 
     try:
-        with open(filename, 'r', encoding='UTF-8') as file:
+        with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline():
                 item_sets: list[ItemSet] = []
-                for i in line.strip().split(' '):
-                    item_sets.append(ItemSet(i.split(':')))
-                sequences.append(item_sets)
+                for i in line.strip().split(" "):
+                    item_sets.append(ItemSet(i.split(":")))
+                sequences.append(Sequence(item_sets))
     except FileNotFoundError:
         msg = filename + " does not exist."
         print(msg)
