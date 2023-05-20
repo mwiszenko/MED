@@ -135,3 +135,7 @@ dmypy.json
 
 # templates
 .github/templates/*
+
+# JetBrains
+.idea/workspace.xml
+.idea/libraries
