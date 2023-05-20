@@ -51,13 +51,14 @@ def test_data_set():
     assert ds[0][0][0] == "2"
 
 
-TEST_DATA = [
+DATA_SETS = [
     [read_sequence_file(filename="tests/data/test.txt"), 4],
-    [read_sequence_file(filename="invalid"), 0],
+    [read_sequence_file(filename="tests/data/invalid.txt"), 0],
+    [read_sequence_file(filename="tests/data/empty.txt"), 0],
 ]
 
 
-@pytest.mark.parametrize("data_set,length", TEST_DATA)
-def test_read_sequence_file_2(data_set: DataSet, length: int):
+@pytest.mark.parametrize("data_set,length", DATA_SETS)
+def test_read_sequence_file(data_set: DataSet, length: int):
     assert type(data_set) == DataSet
     assert len(data_set) == length
