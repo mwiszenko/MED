@@ -9,10 +9,10 @@ class ItemSet:
     def __len__(self):
         return len(self.items)
 
-    def __setitem__(self, item_number, data):
+    def __setitem__(self, item_number: int, data: str):
         self.items[item_number] = data
 
-    def __getitem__(self, item_number):
+    def __getitem__(self, item_number: int):
         return self.items[item_number]
 
     def __str__(self):
@@ -29,10 +29,10 @@ class Sequence:
     def __len__(self):
         return sum(len(i) for i in self.item_sets)
 
-    def __setitem__(self, item_set_number, data):
+    def __setitem__(self, item_set_number: int, data: ItemSet):
         self.item_sets[item_set_number] = data
 
-    def __getitem__(self, item_set_number):
+    def __getitem__(self, item_set_number: int):
         return self.item_sets[item_set_number]
 
     def __str__(self):
@@ -49,10 +49,10 @@ class DataSet:
     def __len__(self):
         return len(self.sequences)
 
-    def __setitem__(self, sequence_number, data):
+    def __setitem__(self, sequence_number: int, data: Sequence):
         self.sequences[sequence_number] = data
 
-    def __getitem__(self, sequence_number):
+    def __getitem__(self, sequence_number: int):
         return self.sequences[sequence_number]
 
     def __str__(self):
@@ -69,8 +69,8 @@ def read_sequence_file(filename: str):
         with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline():
                 item_sets: list[ItemSet] = []
-                for i in line.strip().split(" "):
-                    item_sets.append(ItemSet(i.split(":")))
+                for its in line.strip().split(" "):
+                    item_sets.append(ItemSet(its.split(":")))
                 sequences.append(Sequence(item_sets))
     except FileNotFoundError:
         msg = filename + " does not exist."
