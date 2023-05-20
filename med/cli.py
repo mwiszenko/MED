@@ -32,4 +32,4 @@ def main():  # pragma: no cover
     args = parser.parse_args()
 
     ds: DataSet = read_sequence_file(filename=args.input)
-    print(ds)
+    print(len(ds))

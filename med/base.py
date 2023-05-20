@@ -21,6 +21,9 @@ class ItemSet:
     def __repr__(self):
         return self.__str__()
 
+    def __contains__(self, key: str):
+        return key in self.items
+
 
 class Sequence:
     def __init__(self, item_sets: list[ItemSet]):
@@ -41,6 +44,9 @@ class Sequence:
     def __repr__(self):
         return self.__str__()
 
+    def __contains__(self, key: str):
+        return any(key in its for its in self.item_sets)
+
 
 class DataSet:
     def __init__(self, sequences: list[Sequence]):
@@ -60,6 +66,12 @@ class DataSet:
 
     def __repr__(self):
         return self.__str__()
+
+    def __contains__(self, key: str):
+        return any(key in seq for seq in self.sequences)
+
+    def get_support(self, item: str):
+        return sum(item in seq for seq in self.sequences) / len(self)
 
 
 def read_sequence_file(filename: str):
