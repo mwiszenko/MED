@@ -15,3 +15,5 @@ and then choose `flask` as template.
 
 # example constant variable
 NAME = "med"
+MIN_SUPPORT_VAL = 0.0
+MAX_SUPPORT_VAL = 1.0

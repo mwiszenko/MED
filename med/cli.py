@@ -1,28 +1,22 @@
-"""CLI interface for med project.
+import argparse
+import pandas as pd
 
-Be creative! do whatever you want!
+from med.base import MIN_SUPPORT_VAL, MAX_SUPPORT_VAL
 
-- Install click or typer and create a CLI app
-- Use builtin argparse
-- Start a web application
-- Import things from your .base module
-"""
+
+def min_support_type(arg: str):
+    try:
+        f = float(arg)
+    except ValueError:
+        raise argparse.ArgumentTypeError("Must be a floating point number")
+    if f < MIN_SUPPORT_VAL or f > MAX_SUPPORT_VAL:
+        raise argparse.ArgumentTypeError(
+            "Argument must be < " + str(MAX_SUPPORT_VAL) + " and > " + str(MIN_SUPPORT_VAL))
+    return f
 
 
 def main():  # pragma: no cover
-    """
-    The main function executes on commands:
-    `python -m med` and `$ med `.
-
-    This is your program's entry point.
-
-    You can change this function to do whatever you want.
-    Examples:
-        * Run a test suite
-        * Run a server
-        * Do some other stuff
-        * Run a command line application (Click, Typer, ArgParse)
-        * List all available tasks
-        * Run an application (Flask, FastAPI, Django, etc.)
-    """
-    print("This will do something")
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--input', '-i', type=str, required=True)
+    parser.add_argument('--minSup', '-ms', type=min_support_type, required=True)
+    args = parser.parse_args()
