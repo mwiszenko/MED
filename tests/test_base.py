@@ -26,6 +26,8 @@ def test_item_set():
     assert "-1" not in its
     its[0] = "2"
     assert its[0] == "2"
+    del its[0]
+    assert its[0] == "1"
 
 
 def test_sequence():
@@ -34,12 +36,14 @@ def test_sequence():
     seq: Sequence = Sequence(item_sets)
     assert type(seq) == Sequence
     assert seq.item_sets == item_sets
-    assert len(seq) == sum(len(i) for i in item_sets)
+    assert len(seq) == 4
     assert str(seq) == str(item_sets) == repr(seq)
     assert "0" in seq
     assert "-1" not in seq
     seq[0] = ItemSet(["2"])
     assert seq[0][0] == "2"
+    del seq[0]
+    assert seq[0][0] == "0"
 
 
 def test_data_set():
@@ -49,7 +53,7 @@ def test_data_set():
     ds: DataSet = DataSet(sequences)
     assert type(ds) == DataSet
     assert ds.sequences == sequences
-    assert len(ds) == len(sequences)
+    assert len(ds) == 2
     assert str(ds) == str(sequences) == repr(ds)
     assert "0" in ds
     assert "-1" not in ds
@@ -57,6 +61,8 @@ def test_data_set():
     assert ds.get_support("-1") == 0
     ds[0] = Sequence([ItemSet(["2"])])
     assert ds[0][0][0] == "2"
+    del ds[0]
+    assert ds[0][0][0] == "0"
 
 
 DATA_SETS = [

@@ -15,6 +15,9 @@ class ItemSet:
     def __getitem__(self, item_number: int):
         return self.items[item_number]
 
+    def __delitem__(self, item_number: int):
+        del self.items[item_number]
+
     def __str__(self):
         return str(self.items)
 
@@ -38,6 +41,9 @@ class Sequence:
     def __getitem__(self, item_set_number: int):
         return self.item_sets[item_set_number]
 
+    def __delitem__(self, item_set_number: int):
+        del self.item_sets[item_set_number]
+
     def __str__(self):
         return str(self.item_sets)
 
@@ -60,6 +66,9 @@ class DataSet:
 
     def __getitem__(self, sequence_number: int):
         return self.sequences[sequence_number]
+
+    def __delitem__(self, sequence_number: int):
+        del self.sequences[sequence_number]
 
     def __str__(self):
         return str(self.sequences)
