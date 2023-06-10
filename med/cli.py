@@ -6,8 +6,7 @@ from med.base import (
     DataSet,
     ItemSet,
     Sequence,
-    prefix_span,
-    read_sequence_file,
+    read_sequence_file, prefix_span, get_support,
 )
 
 ITS1_1 = ItemSet(["1"])
@@ -86,4 +85,4 @@ def main():  # pragma: no cover
         min_sup = args.minSupPercentage * len(ds)
     res = prefix_span(ds, min_sup)
     print(res)
-    print(len(res))
+    # print(len(res))
