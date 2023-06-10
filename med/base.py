@@ -108,10 +108,10 @@ class DataSet:
                 [
                     item
                     for sublist in [
-                    item.items
-                    for sublist in self.sequences
-                    for item in sublist
-                ]
+                        item.items
+                        for sublist in self.sequences
+                        for item in sublist
+                    ]
                     for item in sublist
                 ]
             )
@@ -141,7 +141,9 @@ def prefix_span(ds: DataSet, min_sup: float):
     return results
 
 
-def prefix_span_rec(ds: DataSet, proj: dict[int, int], seq_s: Sequence, min_sup: float, results):
+def prefix_span_rec(
+    ds: DataSet, proj: dict[int, int], seq_s: Sequence, min_sup: float, results
+):
     seq_to_sup: dict[Sequence, int] = get_sequences(ds, proj, seq_s)
     for seq_r, sup_r in seq_to_sup.items():
         if sup_r > min_sup:

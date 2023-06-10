@@ -6,7 +6,9 @@ from med.base import (
     DataSet,
     ItemSet,
     Sequence,
-    read_sequence_file, prefix_span, get_support,
+    get_support,
+    prefix_span,
+    read_sequence_file,
 )
 
 ITS1_1 = ItemSet(["1"])
