@@ -84,8 +84,7 @@ class DataSet:
 
     def __str__(self):
         return "\n".join(
-            str(idx + 1) + ": " + str(i)
-            for idx, i in enumerate(self.sequences)
+            str(idx + 1) + ": " + str(i) for idx, i in enumerate(self.sequences)
         )
 
     def __repr__(self):
@@ -144,9 +143,7 @@ def project(ds: DataSet, proj: dict[int, tuple[int, int]], seq_r: Sequence):
     return new_proj
 
 
-def get_sequences(
-    ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence
-):
+def get_sequences(ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence):
     seq_to_sup: dict[Sequence, int] = {}
     sequences: list[Sequence] = []
     same_its: set = set()
@@ -154,9 +151,7 @@ def get_sequences(
 
     for idx, num in proj.items():
         if len(seq) > 0:
-            same_its.update(
-                set(ds.sequences[idx].item_sets[num[0]].items[num[1] :])
-            )
+            same_its.update(set(ds.sequences[idx].item_sets[num[0]].items[num[1] :]))
         for its in ds.sequences[idx].item_sets[num[0] :]:
             next_its.update(set(its.items))
     for cn in next_its:
@@ -181,7 +176,7 @@ def get_support(ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence):
 
 def is_subset(smaller_seq: Sequence, bigger_seq: Sequence):
     ln, j = len(smaller_seq), 0
-    for its in bigger_seq:
+    for its in bigger_seq.item_sets:
         idx = get_place_its(smaller_seq[j], its)
         if idx != -1:
             j += 1

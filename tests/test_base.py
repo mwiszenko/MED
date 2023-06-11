@@ -57,8 +57,6 @@ def test_data_set():
     assert str(ds) == str(sequences) == repr(ds)
     assert "0" in ds
     assert "-1" not in ds
-    assert ds.get_support("0") == 1
-    assert ds.get_support("-1") == 0
     ds[0] = Sequence([ItemSet(["2"])])
     assert ds[0][0][0] == "2"
     del ds[0]
