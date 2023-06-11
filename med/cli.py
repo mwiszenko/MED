@@ -1,6 +1,6 @@
 import argparse
 
-from med.base import DataSet, ItemSet, Sequence, prefix_span
+from med.base import DataSet, ItemSet, Sequence, prefix_span, read_sequence_file
 from med.constants import (
     DEFAULT_MAX_LENGTH,
     MAX_PROBABILITY_FLOAT,
@@ -75,8 +75,8 @@ def main():  # pragma: no cover
     support.add_argument("--min_sup_percentage", type=probability_float)
     args = parser.parse_args()
 
-    # ds: DataSet = read_sequence_file(filename=args.input)
-    ds: DataSet = EXAMPLE_DATASET
+    ds: DataSet = read_sequence_file(filename=args.input)
+    # ds: DataSet = EXAMPLE_DATASET
 
     min_sup: float
     if args.min_sup is not None:
