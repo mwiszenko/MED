@@ -1,9 +1,11 @@
 import argparse
 
 from med.base import DataSet, ItemSet, Sequence, prefix_span
-
-MIN_PROBABILITY_FLOAT = 0.0
-MAX_PROBABILITY_FLOAT = 1.0
+from med.constants import (
+    DEFAULT_MAX_LENGTH,
+    MAX_PROBABILITY_FLOAT,
+    MIN_PROBABILITY_FLOAT,
+)
 
 ITS1_1 = ItemSet(["1"])
 ITS1_2 = ItemSet(["1", "2", "3"])
@@ -64,7 +66,9 @@ def probability_float(arg: str):
 def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=str, required=True)
-    parser.add_argument("--max_length", type=non_negative_int, default=100)
+    parser.add_argument(
+        "--max_length", type=non_negative_int, default=DEFAULT_MAX_LENGTH
+    )
     support = parser.add_mutually_exclusive_group(required=True)
     support.add_argument("--min_sup", type=non_negative_int)
     support.add_argument("--min_sup_percentage", type=probability_float)

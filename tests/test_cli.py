@@ -4,14 +4,7 @@ import pytest
 from med.cli import (
     non_negative_int,
     probability_float,
-    MIN_PROBABILITY_FLOAT,
-    MAX_PROBABILITY_FLOAT,
 )
-
-
-def test_constants():
-    assert MIN_PROBABILITY_FLOAT == 0.0
-    assert MAX_PROBABILITY_FLOAT == 1.0
 
 
 def test_positive_int():
