@@ -2,7 +2,7 @@ import argparse
 import pytest
 
 from med.cli import (
-    positive_int,
+    non_negative_int,
     probability_float,
     MIN_PROBABILITY_FLOAT,
     MAX_PROBABILITY_FLOAT,
@@ -15,13 +15,13 @@ def test_constants():
 
 
 def test_positive_int():
-    assert positive_int("2") == 2
+    assert non_negative_int("2") == 2
     with pytest.raises(argparse.ArgumentTypeError):
-        positive_int("-2")
+        non_negative_int("-2")
     with pytest.raises(argparse.ArgumentTypeError):
-        positive_int("0.5")
+        non_negative_int("0.5")
     with pytest.raises(argparse.ArgumentTypeError):
-        positive_int("invalid")
+        non_negative_int("invalid")
 
 
 def test_min_support_percentage_type():

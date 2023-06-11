@@ -36,7 +36,7 @@ SEQ4 = Sequence([ITS4_1, ITS4_2, ITS4_3, ITS4_4, ITS4_5, ITS4_6])
 EXAMPLE_DATASET = DataSet([SEQ1, SEQ2, SEQ3, SEQ4])
 
 
-def positive_int(arg: str):
+def non_negative_int(arg: str):
     try:
         i = int(arg)
     except ValueError:
@@ -64,9 +64,9 @@ def probability_float(arg: str):
 def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=str, required=True)
-    parser.add_argument("--max_length", type=positive_int, default=100)
+    parser.add_argument("--max_length", type=non_negative_int, default=100)
     support = parser.add_mutually_exclusive_group(required=True)
-    support.add_argument("--min_sup", type=positive_int)
+    support.add_argument("--min_sup", type=non_negative_int)
     support.add_argument("--min_sup_percentage", type=probability_float)
     args = parser.parse_args()
 
