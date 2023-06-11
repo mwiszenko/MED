@@ -69,8 +69,8 @@ def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=str, required=True)
     support = parser.add_mutually_exclusive_group(required=True)
-    support.add_argument("--minSup", type=min_support_type)
-    support.add_argument("--minSupPercentage", type=min_support_percentage_type)
+    support.add_argument("--min-sup", type=min_support_type)
+    support.add_argument("--min-sup-percentage", type=min_support_percentage_type)
     args = parser.parse_args()
 
     # ds: DataSet = read_sequence_file(filename=args.input)
