@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import copy
+from collections import defaultdict
 
 
 class ItemSet:
@@ -90,16 +91,21 @@ class DataSet:
     def __contains__(self, key: str):
         return any(key in seq for seq in self.sequences)
 
+    def append(self, seq: Sequence):
+        self.sequences.append(seq)
+        return self
 
-def read_sequence_file(filename: str):
+
+def read_sequence_file(filename: str) -> DataSet:
     sequences: list[Sequence] = []
 
     try:
         with open(filename, "r", encoding="UTF-8") as file:
             while line := file.readline():
                 item_sets: list[ItemSet] = []
-                for its in line.strip().split(" "):
-                    item_sets.append(ItemSet(its.split(":")))
+                for its in line.strip().split(" -1 "):
+                    if its != "-2":
+                        item_sets.append(ItemSet(its.split(" ")))
                 sequences.append(Sequence(item_sets))
     except FileNotFoundError:
         msg = filename + " does not exist."
@@ -109,10 +115,10 @@ def read_sequence_file(filename: str):
 
 def prefix_span(ds: DataSet, min_sup: float, max_length: int) -> dict[Sequence, int]:
     results: dict[Sequence, int] = {}
-    projection: dict[int, tuple[int, int]] = {}
+    initial_proj: dict[int, tuple[int, int]] = {}
     for i in range(len(ds)):
-        projection[i] = (0, 0)
-    prefix_span_rec(ds, projection, Sequence([]), min_sup, max_length, results)
+        initial_proj[i] = (0, 0)
+    prefix_span_rec(ds, initial_proj, Sequence([]), min_sup, max_length, results)
     return results
 
 
@@ -124,68 +130,65 @@ def prefix_span_rec(
     max_length: int,
     results: dict[Sequence, int],
 ) -> None:
-    if sum(len(i) for i in seq_s.item_sets) >= max_length:
-        return
     seq_to_sup: dict[Sequence, int] = get_sequences(ds, proj, seq_s)
     for seq_r, sup_r in seq_to_sup.items():
-        if sup_r > min_sup:
+        if sup_r >= min_sup:
             results[seq_r] = sup_r
-            new_proj: dict[int, tuple[int, int]] = project(ds, proj, seq_r)
-            prefix_span_rec(ds, new_proj, seq_r, min_sup, max_length, results)
+            if sum(len(i) for i in seq_r.item_sets) < max_length:
+                new_proj: dict[int, tuple[int, int]] = project(ds, proj, seq_r)
+                prefix_span_rec(ds, new_proj, seq_r, min_sup, max_length, results)
 
 
-def project(ds: DataSet, proj: dict[int, tuple[int, int]], seq_r: Sequence):
+def project(
+    ds: DataSet, proj: dict[int, tuple[int, int]], seq_r: Sequence
+) -> dict[int, tuple[int, int]]:
     new_proj: dict[int, tuple[int, int]] = {}
     for idx, num in proj.items():
         new_num = get_place(seq_r, ds.sequences[idx])
-        if new_num != -1:
+        if new_num[0] != -1:
             new_proj[idx] = new_num
     return new_proj
 
 
-def get_sequences(ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence):
+def get_sequences(
+    ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence
+) -> dict[Sequence, int]:
     seq_to_sup: dict[Sequence, int] = {}
-    sequences: list[Sequence] = []
-    same_its: set = set()
-    next_its: set = set()
+    same_its: defaultdict[str, int] = defaultdict(int)
+    next_its: defaultdict[str, int] = defaultdict(int)
 
     for idx, num in proj.items():
         if len(seq) > 0:
-            same_its.update(set(ds.sequences[idx].item_sets[num[0]].items[num[1] :]))
-        for its in ds.sequences[idx].item_sets[num[0] :]:
-            next_its.update(set(its.items))
-    for cn in next_its:
-        sequences.append(copy.deepcopy(seq).append(ItemSet([cn])))
-    for cs in same_its:
-        seq2 = copy.deepcopy(seq)
-        seq2.item_sets[-1].append(cs)
-        sequences.append(seq2)
-    for s in sequences:
-        seq_to_sup[s] = get_support(ds, proj, s)
+            characters = set(ds.sequences[idx].item_sets[num[0]].items[num[1] + 1 :])
+            for i in ds.sequences[idx].item_sets[num[0] + 1 :]:
+                new_num = get_place_its(seq.item_sets[-1], i)
+                if new_num != -1:
+                    characters.update(set(i.items[new_num + 1 :]))
+            for c in characters:
+                same_its[c] += 1
+
+        characters = set()
+        if len(seq) == 0:
+            characters.update(
+                set(i for lst in ds.sequences[idx].item_sets[num[0] :] for i in lst)
+            )
+        else:
+            characters.update(
+                set(i for lst in ds.sequences[idx].item_sets[num[0] + 1 :] for i in lst)
+            )
+        for c in characters:
+            next_its[c] += 1
+
+    for c, n in next_its.items():
+        seq_to_sup[copy.deepcopy(seq).append(ItemSet([c]))] = n
+    for c, n in same_its.items():
+        new_seq = copy.deepcopy(seq)
+        new_seq.item_sets[-1].append(c)
+        seq_to_sup[new_seq] = n
     return seq_to_sup
 
 
-def get_support(ds: DataSet, proj: dict[int, tuple[int, int]], seq: Sequence):
-    support: int = 0
-    for idx, num in proj.items():
-        is_contained = is_subset(seq, ds.sequences[idx])
-        if is_contained:
-            support = support + 1
-    return support
-
-
-def is_subset(smaller_seq: Sequence, bigger_seq: Sequence):
-    ln, j = len(smaller_seq), 0
-    for its in bigger_seq.item_sets:
-        idx = get_place_its(smaller_seq[j], its)
-        if idx != -1:
-            j += 1
-        if j == ln:
-            return True
-    return False
-
-
-def get_place(smaller_seq: Sequence, bigger_seq: Sequence):
+def get_place(smaller_seq: Sequence, bigger_seq: Sequence) -> tuple[int, int]:
     ln, j = len(smaller_seq), 0
     for idx, its in enumerate(bigger_seq.item_sets):
         idx2 = get_place_its(smaller_seq[j], its)
@@ -196,7 +199,7 @@ def get_place(smaller_seq: Sequence, bigger_seq: Sequence):
     return -1, -1
 
 
-def get_place_its(smaller_its: ItemSet, bigger_its: ItemSet):
+def get_place_its(smaller_its: ItemSet, bigger_its: ItemSet) -> int:
     ln, j = len(smaller_its), 0
     for idx, its in enumerate(bigger_its.items):
         if its == smaller_its[j]:

@@ -1,4 +1,5 @@
 import argparse
+from time import time
 
 from med.base import DataSet, ItemSet, Sequence, prefix_span, read_sequence_file
 from med.constants import (
@@ -83,7 +84,9 @@ def main():  # pragma: no cover
         min_sup = args.min_sup
     else:
         min_sup = args.min_sup_percentage * len(ds)
+    start_time = time()
     res: dict[Sequence, int] = prefix_span(ds, min_sup, args.max_length)
+    print("--- %s seconds ---" % (time() - start_time))
     ordered_res: dict[Sequence, int] = dict(
         sorted(res.items(), key=lambda item: item[1], reverse=True)
     )
