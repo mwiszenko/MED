@@ -66,6 +66,7 @@ def probability_float(arg: str):
 def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=str, required=True)
+    parser.add_argument("--output", "-o", type=str)
     parser.add_argument(
         "--max_length", type=non_negative_int, default=DEFAULT_MAX_LENGTH
     )
@@ -82,6 +83,23 @@ def main():  # pragma: no cover
         min_sup = args.min_sup
     else:
         min_sup = args.min_sup_percentage * len(ds)
-    res = prefix_span(ds, min_sup, args.max_length)
-    print(res)
-    print(len(res))
+    res: dict[Sequence, int] = prefix_span(ds, min_sup, args.max_length)
+    ordered_res: dict[Sequence, int] = dict(
+        sorted(res.items(), key=lambda item: item[1], reverse=True)
+    )
+    number_of_found_sequences: str = "Number of found sequences: " + str(
+        len(ordered_res)
+    )
+    found_sequences: str = "\n".join(
+        "{}: {}".format(k, v) for k, v in ordered_res.items()
+    )
+    if args.output:
+        with open(args.output, "w") as output:
+            output.write(str(args))
+            output.write("\n\n")
+            output.write(number_of_found_sequences)
+            output.write("\n\n")
+            output.write(found_sequences)
+    else:
+        print(number_of_found_sequences)
+        print(found_sequences)
