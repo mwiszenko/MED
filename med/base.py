@@ -113,12 +113,16 @@ def read_sequence_file(filename: str) -> DataSet:
     return DataSet(sequences)
 
 
-def prefix_span(ds: DataSet, min_sup: float, max_length: int) -> dict[Sequence, int]:
+def prefix_span(
+    ds: DataSet, min_sup: float, min_length: int, max_length: int
+) -> dict[Sequence, int]:
     results: dict[Sequence, int] = {}
     initial_proj: dict[int, tuple[int, int]] = {}
     for i in range(len(ds)):
         initial_proj[i] = (0, 0)
-    prefix_span_rec(ds, initial_proj, Sequence([]), min_sup, max_length, results)
+    prefix_span_rec(
+        ds, initial_proj, Sequence([]), min_sup, min_length, max_length, results
+    )
     return results
 
 
@@ -127,16 +131,21 @@ def prefix_span_rec(
     proj: dict[int, tuple[int, int]],
     seq_s: Sequence,
     min_sup: float,
+    min_length: int,
     max_length: int,
     results: dict[Sequence, int],
 ) -> None:
     seq_to_sup: dict[Sequence, int] = get_sequences(ds, proj, seq_s)
     for seq_r, sup_r in seq_to_sup.items():
         if sup_r >= min_sup:
-            results[seq_r] = sup_r
-            if sum(len(i) for i in seq_r.item_sets) < max_length:
+            seq_length = sum(len(i) for i in seq_r.item_sets)
+            if seq_length >= min_length:
+                results[seq_r] = sup_r
+            if seq_length < max_length:
                 new_proj: dict[int, tuple[int, int]] = project(ds, proj, seq_r)
-                prefix_span_rec(ds, new_proj, seq_r, min_sup, max_length, results)
+                prefix_span_rec(
+                    ds, new_proj, seq_r, min_sup, min_length, max_length, results
+                )
 
 
 def project(

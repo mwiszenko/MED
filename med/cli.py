@@ -4,6 +4,7 @@ from time import time
 from med.base import DataSet, ItemSet, Sequence, prefix_span, read_sequence_file
 from med.constants import (
     DEFAULT_MAX_LENGTH,
+    DEFAULT_MIN_LENGTH,
     MAX_PROBABILITY_FLOAT,
     MIN_PROBABILITY_FLOAT,
 )
@@ -71,6 +72,9 @@ def main():  # pragma: no cover
     parser.add_argument(
         "--max_length", type=non_negative_int, default=DEFAULT_MAX_LENGTH
     )
+    parser.add_argument(
+        "--min_length", type=non_negative_int, default=DEFAULT_MIN_LENGTH
+    )
     support = parser.add_mutually_exclusive_group(required=True)
     support.add_argument("--min_sup", type=non_negative_int)
     support.add_argument("--min_sup_percentage", type=probability_float)
@@ -85,7 +89,9 @@ def main():  # pragma: no cover
     else:
         min_sup = args.min_sup_percentage * len(ds)
     start_time = time()
-    res: dict[Sequence, int] = prefix_span(ds, min_sup, args.max_length)
+    res: dict[Sequence, int] = prefix_span(
+        ds, min_sup, args.min_length, args.max_length
+    )
     print("--- %s seconds ---" % (time() - start_time))
     ordered_res: dict[Sequence, int] = dict(
         sorted(res.items(), key=lambda item: item[1], reverse=True)
