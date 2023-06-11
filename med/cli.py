@@ -64,6 +64,7 @@ def probability_float(arg: str):
 def main():  # pragma: no cover
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", "-i", type=str, required=True)
+    parser.add_argument("--max_length", type=positive_int, default=100)
     support = parser.add_mutually_exclusive_group(required=True)
     support.add_argument("--min_sup", type=positive_int)
     support.add_argument("--min_sup_percentage", type=probability_float)
@@ -77,6 +78,6 @@ def main():  # pragma: no cover
         min_sup = args.min_sup
     else:
         min_sup = args.min_sup_percentage * len(ds)
-    res = prefix_span(ds, min_sup)
+    res = prefix_span(ds, min_sup, args.max_length)
     print(res)
     print(len(res))
