@@ -13,7 +13,7 @@ ITS1_1 = ItemSet(["1"])
 ITS1_2 = ItemSet(["1", "2", "3"])
 ITS1_3 = ItemSet(["1", "3"])
 ITS1_4 = ItemSet(["4"])
-ITS1_5 = ItemSet(["3", "6", "7"])
+ITS1_5 = ItemSet(["3", "6"])
 SEQ1 = Sequence([ITS1_1, ITS1_2, ITS1_3, ITS1_4, ITS1_5])
 
 ITS2_1 = ItemSet(["1", "4"])
