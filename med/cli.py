@@ -6,16 +6,14 @@ from med.base import (
     DataSet,
     ItemSet,
     Sequence,
-    get_support,
     prefix_span,
-    read_sequence_file,
 )
 
 ITS1_1 = ItemSet(["1"])
 ITS1_2 = ItemSet(["1", "2", "3"])
 ITS1_3 = ItemSet(["1", "3"])
 ITS1_4 = ItemSet(["4"])
-ITS1_5 = ItemSet(["3", "6"])
+ITS1_5 = ItemSet(["3", "6", "7"])
 SEQ1 = Sequence([ITS1_1, ITS1_2, ITS1_3, ITS1_4, ITS1_5])
 
 ITS2_1 = ItemSet(["1", "4"])
@@ -87,4 +85,4 @@ def main():  # pragma: no cover
         min_sup = args.minSupPercentage * len(ds)
     res = prefix_span(ds, min_sup)
     print(res)
-    # print(len(res))
+    print(len(res))
