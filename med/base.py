@@ -2,9 +2,6 @@ from __future__ import annotations
 
 import copy
 
-MIN_SUPPORT_VAL = 0.0
-MAX_SUPPORT_VAL = 1.0
-
 
 class ItemSet:
     def __init__(self, items: list[str]):

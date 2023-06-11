@@ -1,22 +1,32 @@
 import argparse
 import pytest
 
-from med.cli import min_support_type, min_support_percentage_type
+from med.cli import (
+    positive_int,
+    probability_float,
+    MIN_PROBABILITY_FLOAT,
+    MAX_PROBABILITY_FLOAT,
+)
 
 
-def test_min_support_type():
-    assert min_support_type("2") == 2
+def test_constants():
+    assert MIN_PROBABILITY_FLOAT == 0.0
+    assert MAX_PROBABILITY_FLOAT == 1.0
+
+
+def test_positive_int():
+    assert positive_int("2") == 2
     with pytest.raises(argparse.ArgumentTypeError):
-        min_support_type("-2")
+        positive_int("-2")
     with pytest.raises(argparse.ArgumentTypeError):
-        min_support_type("0.5")
+        positive_int("0.5")
     with pytest.raises(argparse.ArgumentTypeError):
-        min_support_type("invalid")
+        positive_int("invalid")
 
 
 def test_min_support_percentage_type():
-    assert min_support_percentage_type("0.5") == 0.5
+    assert probability_float("0.5") == 0.5
     with pytest.raises(argparse.ArgumentTypeError):
-        min_support_percentage_type("2")
+        probability_float("2")
     with pytest.raises(argparse.ArgumentTypeError):
-        min_support_percentage_type("invalid")
+        probability_float("invalid")

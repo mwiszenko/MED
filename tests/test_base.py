@@ -1,16 +1,9 @@
 import pytest
 
 from med.base import (
-    MIN_SUPPORT_VAL,
-    MAX_SUPPORT_VAL,
     DataSet,
     read_sequence_file,
 )
-
-
-def test_constants():
-    assert MIN_SUPPORT_VAL == 0.0
-    assert MAX_SUPPORT_VAL == 1.0
 
 
 DATA_SETS = [
