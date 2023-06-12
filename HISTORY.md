@@ -4,6 +4,15 @@ Changelog
 
 (unreleased)
 ------------
+- Merge pull request #8 from mwiszenko/hotfix. [Michał Wiszenko]
+
+  Fix error handling on loading data
+- Fix error handling on loading data. [Michał Wiszenko]
+
+
+1.0.0 (2023-06-12)
+------------------
+- Release: version 1.0.0 🚀 [Michał Wiszenko]
 - Merge pull request #7 from mwiszenko/hotfix. [Michał Wiszenko]
 
   Fix imports, reformat
