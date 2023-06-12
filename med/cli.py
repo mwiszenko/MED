@@ -1,7 +1,7 @@
 import argparse
 from time import time
 
-from med.base import DataSet, ItemSet, Sequence, prefix_span, read_sequence_file
+from med.base import DataSet, Sequence, prefix_span, read_sequence_file
 from med.constants import (
     DEFAULT_MAX_LENGTH,
     DEFAULT_MIN_LENGTH,

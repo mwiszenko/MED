@@ -211,11 +211,19 @@ def get_sequences(
         characters = set()
         if len(seq) == 0:
             characters.update(
-                set(i for lst in ds.sequences[idx].item_sets[num[0] :] for i in lst)
+                set(
+                    it
+                    for lst in ds.sequences[idx].item_sets[num[0] :]
+                    for it in lst.items
+                )
             )
         else:
             characters.update(
-                set(i for lst in ds.sequences[idx].item_sets[num[0] + 1 :] for i in lst)
+                set(
+                    it
+                    for lst in ds.sequences[idx].item_sets[num[0] + 1 :]
+                    for it in lst.items
+                )
             )
         for c in characters:
             next_its[c] += 1
