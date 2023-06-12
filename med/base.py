@@ -85,6 +85,13 @@ class DataSet:
             str(idx + 1) + ": " + str(i) for idx, i in enumerate(self.sequences)
         )
 
+    def remove_all(self, keys: set[str]):
+        for s in self.sequences:
+            for its in s.item_sets:
+                for i in its.items:
+                    if i in keys:
+                        del i
+
     def __repr__(self):
         return self.__str__()
 
@@ -136,6 +143,14 @@ def prefix_span_rec(
     results: dict[Sequence, int],
 ) -> None:
     seq_to_sup: dict[Sequence, int] = get_sequences(ds, proj, seq_s)
+    if len(seq_s) == 0:
+        rare_items: set[str] = set()
+        for seq_r, sup_r in seq_to_sup.items():
+            if sup_r < min_sup:
+                rare_items.add(seq_r.item_sets[0].items[0])
+        if len(rare_items) > 0:
+            ds.remove_all(rare_items)
+
     for seq_r, sup_r in seq_to_sup.items():
         if sup_r >= min_sup:
             seq_length = sum(len(i) for i in seq_r.item_sets)
