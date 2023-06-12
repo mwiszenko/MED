@@ -1,5 +1,4 @@
 import argparse
-import subprocess
 from statistics import mean
 from time import time
 
