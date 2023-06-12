@@ -3,6 +3,8 @@ from __future__ import annotations
 import copy
 from collections import defaultdict
 
+from tqdm import tqdm
+
 
 class ItemSet:
     def __init__(self, items: list[str]):
@@ -102,6 +104,17 @@ class DataSet:
         self.sequences.append(seq)
         return self
 
+    def get_set(self):
+        return set(
+            [
+                item
+                for sublist in [
+                    item.items for sublist in self.sequences for item in sublist
+                ]
+                for item in sublist
+            ]
+        )
+
 
 def read_sequence_file(filename: str) -> DataSet:
     sequences: list[Sequence] = []
@@ -125,10 +138,11 @@ def prefix_span(
 ) -> dict[Sequence, int]:
     results: dict[Sequence, int] = {}
     initial_proj: dict[int, tuple[int, int]] = {}
+    bar = tqdm()
     for i in range(len(ds)):
         initial_proj[i] = (0, 0)
     prefix_span_rec(
-        ds, initial_proj, Sequence([]), min_sup, min_length, max_length, results
+        ds, initial_proj, Sequence([]), min_sup, min_length, max_length, results, bar
     )
     return results
 
@@ -141,6 +155,7 @@ def prefix_span_rec(
     min_length: int,
     max_length: int,
     results: dict[Sequence, int],
+    bar: tqdm,
 ) -> None:
     seq_to_sup: dict[Sequence, int] = get_sequences(ds, proj, seq_s)
     if len(seq_s) == 0:
@@ -150,17 +165,19 @@ def prefix_span_rec(
                 rare_items.add(seq_r.item_sets[0].items[0])
         if len(rare_items) > 0:
             ds.remove_all(rare_items)
-
+        bar.total = len(ds.get_set())
     for seq_r, sup_r in seq_to_sup.items():
-        if sup_r >= min_sup:
+        if sup_r > min_sup:
             seq_length = sum(len(i) for i in seq_r.item_sets)
             if seq_length >= min_length:
                 results[seq_r] = sup_r
             if seq_length < max_length:
                 new_proj: dict[int, tuple[int, int]] = project(ds, proj, seq_r)
                 prefix_span_rec(
-                    ds, new_proj, seq_r, min_sup, min_length, max_length, results
+                    ds, new_proj, seq_r, min_sup, min_length, max_length, results, bar
                 )
+        if len(seq_s) == 0:
+            bar.update(1)
 
 
 def project(
