@@ -45,6 +45,9 @@ class ModeMapper:
     @staticmethod
     def run(args):
         ds: DataSet = read_sequence_file(filename=args.input)
+        if len(ds) == 0:
+            print("Data could not be loaded properly.")
+            exit(1)
 
         min_sup: float
         if args.min_sup is not None:
@@ -77,6 +80,9 @@ class ModeMapper:
     @staticmethod
     def test(args):
         ds: DataSet = read_sequence_file(filename=args.input)
+        if len(ds) == 0:
+            print("Data could not be loaded properly.")
+            exit(1)
 
         min_sup: float
         if args.min_sup is not None:
