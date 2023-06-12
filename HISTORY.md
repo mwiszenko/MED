@@ -4,74 +4,68 @@ Changelog
 
 (unreleased)
 ------------
+- Merge pull request #7 from mwiszenko/hotfix. [Michał Wiszenko]
 
-Fix
-~~~
-- 💚 Change the github action to ignore all forks of this template as
-  long as the template name is the same (#16) [Urjeet Patel]
+  Fix imports, reformat
+- Fix imports. [Michał Wiszenko]
+- Merge pull request #6 from mwiszenko/research. [Michał Wiszenko]
 
-Other
-~~~~~
-- Adjust codecov settings. [Michał Wiszenko]
-- Skip pip install for windows tests. [Michał Wiszenko]
-- Remove sponsors. [Michał Wiszenko]
-- Adjust package name. [Michał Wiszenko]
-- Remove description, modify badges. [Michał Wiszenko]
-- Fix setting version. [Michał Wiszenko]
-- Ignore MacOS auto-generated files. [Michał Wiszenko]
-- Add dependabot.yml and update actions versions (#29) [Anthony Luo]
-- Update release.yml to include write permission (#28) [Anthony Luo]
+  Add test mode for averaging time of execution
+- Add test mode for averaging time of execution. [Michał Wiszenko]
+- Merge pull request #5 from mwiszenko/algo. [Michał Wiszenko]
 
-  per https://github.com/softprops/action-gh-release/issues/236
-- Fix typo (#23) [Osman F Bayram]
-- Update rename_project.yml. [Bruno Rocha]
-- Cleanups (#19) [Bruno Rocha]
-- Feat(PR and ISSUE templates): Create ISSUE_TEMPLATE folder and
-  PR_TEMPLATE.md :bomb: (#17) [João Guilherme]
-- Fix version pushed to PyPI (#14) [Nicholas Stephen, Nick Stephen]
-- Update README.md. [Bruno Rocha]
-- Update rename_project.sh. [Bruno Rocha]
-- Create template.yml. [Bruno Rocha]
-- Update rename_project.yml. [Bruno Rocha]
-- Update rename_project.sh. [Bruno Rocha]
-- Update rename_project.yml. [Bruno Rocha]
-- Update rename_project.yml. [Bruno Rocha]
-- Update rename_project.sh. [Bruno Rocha]
-- Create FUNDING.yml. [Bruno Rocha]
-- Sponsor info. [Bruno Rocha]
-- Fix formatting. [Bruno Rocha]
-- Add argparse example to the  handler. [Bruno Rocha]
-- Fix poetry switch command. [Bruno Rocha]
-- Template is external (#8) [Bruno Rocha]
-- Remove unnecessary comments. [Bruno Rocha]
-- Fix flask apply when poetry is used. [Bruno Rocha]
-- Add --ignore-missing-imports. [Bruno Rocha]
-- Env aware makefile (#6) [Bruno Rocha]
-- Fix #4 URLNAME. [Bruno Rocha]
-- Merge pull request #5 from rochacbruno/add_flask. [Bruno Rocha]
+  Working algorithm
+- Reformat. [Michał Wiszenko]
+- Remove scratch constants. [Michał Wiszenko]
+- Add tqdm progress bar. [Michał Wiszenko]
+- Remove rare items on first pass. [Michał Wiszenko]
+- Add min length parameter. [Michał Wiszenko]
+- Optimise algorithm. [Michał Wiszenko]
+- Switch to reading dataset from input file. [Michał Wiszenko]
+- Add possibility to write output into file. [Michał Wiszenko]
+- Move constants to a separate file. [Michał Wiszenko]
+- Rename cli parameter. [Michał Wiszenko]
+- Add max length parameter. [Michał Wiszenko]
+- Rename cli custom types. [Michał Wiszenko]
+- Fix cli parameters. [Michał Wiszenko]
+- Change cli parameter naming convention. [Michał Wiszenko]
+- Fix example dataset structure. [Michał Wiszenko]
+- Fix tests. [Michał Wiszenko]
+- Reformat. [Michał Wiszenko]
+- Explore sequences with multiple items in itemset. [Michał Wiszenko]
+- Reformat. [Michał Wiszenko]
+- Switch to functions. [Michał Wiszenko]
+- First working version. [Michał Wiszenko]
+- Implement __getitem__methods. [Michał Wiszenko]
+- Override __contains__ method for all classes, implement get_support.
+  [Michał Wiszenko]
+- Merge pull request #4 from mwiszenko/algo. [Michał Wiszenko]
 
-  Can generate a Flask application using `make init` after template is used.
-- Add flask template from `make init` [Bruno Rocha]
-- Multiple changes readme improvements and more make files. [Bruno
-  Rocha]
-- Add info about release. [Bruno Rocha]
-- Fix Rename project Ci and CONtrIBUTING.md. [Bruno Rocha]
-- Trying a rename project job. [Bruno Rocha]
-- Fix sed. [Bruno Rocha]
-- Use git-lsfiles and make command a run-once. [Bruno Rocha]
-- Add make docs. [Bruno Rocha]
-- Add script to rename the project and docs. [Bruno Rocha]
-- Release: version 0.1.2. [Bruno Rocha]
+  Implement data model, add test cases
+- Add test case for empty file. [Michał Wiszenko]
+- Add type hints. [Michał Wiszenko]
+- Remove unused imports. [Michał Wiszenko]
+- Remove pandas dependency. [Michał Wiszenko]
+- Implement tests for cli and data model. [Michał Wiszenko]
+- Add test data. [Michał Wiszenko]
+- Include IDE configuration. [Michał Wiszenko]
+- Ignore unneeded IDE files. [Michał Wiszenko]
+- Add example input file. [Michał Wiszenko]
+- Define sequence base model. [Michał Wiszenko]
+- Merge pull request #3 from mwiszenko/dev. [Michał Wiszenko]
 
+  Implement CLI
+- Add pandas dependency. [Michał Wiszenko]
+- Implement cli. [Michał Wiszenko]
+- Merge pull request #2 from mwiszenko/pypi_badge. [Michał Wiszenko]
 
-0.1.2 (2021-08-14)
-------------------
-- Fix release, README and windows CI. [Bruno Rocha]
-- Release: version 0.1.0. [Bruno Rocha]
+  Add link to the PyPi badge
+- Add link to the PyPi badge. [Michał Wiszenko]
+- Merge pull request #1 from mwiszenko/codecov-badge. [Michał Wiszenko]
 
-
-0.1.0 (2021-08-14)
-------------------
-- Add release command. [Bruno Rocha]
+  Update Codecov badge
+- Update Codecov badge. [Michał Wiszenko]
+- ✅ Ready to clone and code. [mwiszenko]
+- Initial commit. [Michał Wiszenko]
 
 
